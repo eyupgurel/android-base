@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 
 @ActivityScope
-open class DefaultScreenNavigator @Inject internal constructor(private val context: Context,
+open class DefaultScreenNavigator @Inject  constructor(private val context: Context,
                                                                private val appCompatActivity: AppCompatActivity,
                                                                private val activityStateHandler: ActivityStateHandler): ActivityLifecycleTask(), ScreenNavigator {
 
