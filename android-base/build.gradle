@@ -1,0 +1,150 @@
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'de.mannodermaus.android-junit5'
+}
+
+
+android {
+    compileSdk 31
+    buildToolsVersion "31.0.0"
+
+    defaultConfig {
+        minSdk 26
+        targetSdk 31
+        versionCode 1
+        versionName "1.0.1"
+
+        // 1) Make sure to use the AndroidJUnitRunner, or a subclass of it. This requires a dependency on androidx.test:runner, too!
+        testInstrumentationRunner "com.futurance.futurex.test.CustomTestRunner"
+        // 2) Connect JUnit 5 to the runner
+        testInstrumentationRunnerArgument "runnerBuilder", "de.mannodermaus.junit5.AndroidJUnit5Builder"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    packagingOptions {
+        exclude("META-INF/*.kotlin_module")
+    }
+
+
+}
+
+
+
+dependencies {
+
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+
+    def recyclerview_version = "1.2.1"
+    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
+    // For control over item selection of both touch and mouse driven selection
+    def recyclerview_selection_version = "1.1.0"
+    implementation "androidx.recyclerview:recyclerview-selection:$recyclerview_selection_version"
+
+    def rxKotlinVersion = "3.0.1"
+    implementation "io.reactivex.rxjava3:rxkotlin:$rxKotlinVersion"
+
+    def rxJava = "3.0.13"
+    implementation "io.reactivex.rxjava3:rxjava:$rxJava"
+
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+
+    def  rxRelayVersion = "3.0.0"
+    implementation "com.jakewharton.rxrelay3:rxrelay:$rxRelayVersion"
+
+    def  daggerVersion = "2.38.1"
+    api "com.google.dagger:dagger:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    //annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    api "com.google.dagger:dagger-android:$daggerVersion"
+    api "com.google.dagger:dagger-android-support:$daggerVersion" // if you use the support libraries
+
+
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+    kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    def espressoVersion = "3.4.0"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+
+    def junitVersion = "5.7.1"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$junitVersion"
+
+    implementation 'org.jetbrains:annotations:16.0.1'
+
+    // Jupiter API & Test Runner, if you don't have it already
+    def testRunnerVersion = "1.2.2"
+    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
+    androidTestImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+
+    // The instrumentation test companion libraries
+    androidTestImplementation "de.mannodermaus.junit5:android-test-core:$testRunnerVersion"
+    androidTestRuntimeOnly "de.mannodermaus.junit5:android-test-runner:$testRunnerVersion"
+
+    def mockkVersion = "1.11.0"
+    testImplementation "io.mockk:mockk:$mockkVersion"
+
+    implementation 'com.github.eyupgurel:depinject:1.0.1'
+
+    def nav_version = "2.3.5"
+
+    // Kotlin
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    // Feature module Support
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+
+    // Testing Navigation
+    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+
+    def nav_compose_version = "2.4.0-alpha07"
+
+    def  moshiVersion = "1.12.0"
+    implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
+    implementation "com.squareup.moshi:moshi-adapters:$moshiVersion"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
+
+    // Jetpack Compose Integration
+    implementation "androidx.navigation:navigation-compose:$nav_compose_version"
+}
+afterEvaluate {
+    publishing {
+        publications {
+            debug(MavenPublication) {
+                from components.debug
+                groupId = 'com.eyup.gurel.lib.dagger2'
+                artifactId = 'depinject'
+                version = '1.0.1'
+            }
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.eyup.gurel.lib.dagger2'
+                artifactId = 'depinject'
+                version = '1.0.1'
+            }
+        }
+    }
+}
