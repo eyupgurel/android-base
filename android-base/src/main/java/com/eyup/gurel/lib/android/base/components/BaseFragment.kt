@@ -16,8 +16,9 @@ import java.util.*
 import javax.inject.Inject
 
 abstract class BaseFragment : Fragment() {
-    var screenLifecycleTasks: Set<@JvmSuppressWildcards ScreenLifecycleTask>? = null
-        @Inject set
+    @set:Inject
+    lateinit var screenLifecycleTasks: Set<@JvmSuppressWildcards ScreenLifecycleTask>
+
     private val disposables = CompositeDisposable()
     @Inject
     @ForScreen  protected lateinit var disposableManager: DisposableManager
@@ -32,7 +33,7 @@ abstract class BaseFragment : Fragment() {
             arguments = bundle
         }
         Injector.inject(this)
-        screenLifecycleTasks?.forEach{it.onEnterScope(view)}
+        screenLifecycleTasks.forEach{it.onEnterScope(view)}
         return view
     }
 
@@ -43,12 +44,12 @@ abstract class BaseFragment : Fragment() {
 
     override fun onDestroyView() {
         disposables.clear()
-        screenLifecycleTasks?.forEach{it.onExitScope()}
+        screenLifecycleTasks.forEach{it.onExitScope()}
         super.onDestroyView()
     }
 
     override fun onDestroy() {
-        screenLifecycleTasks?.forEach{
+        screenLifecycleTasks.forEach{
             it.onDestroy()
         }
         if (!requireActivity().isChangingConfigurations) {
