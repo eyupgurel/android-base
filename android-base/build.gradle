@@ -15,8 +15,8 @@ android {
     defaultConfig {
         minSdk 26
         targetSdk 31
-        versionCode 4
-        versionName "1.0.4"
+        versionCode 5
+        versionName "1.0.5"
 
         // 1) Make sure to use the AndroidJUnitRunner, or a subclass of it. This requires a dependency on androidx.test:runner, too!
         testInstrumentationRunner "com.futurance.futurex.test.CustomTestRunner"
@@ -137,13 +137,13 @@ afterEvaluate {
                 from components.debug
                 groupId = 'com.eyup.gurel.lib.dagger2'
                 artifactId = 'depinject'
-                version = '1.0.4'
+                version = '1.0.5'
             }
             release(MavenPublication) {
                 from components.release
                 groupId = 'com.eyup.gurel.lib.dagger2'
                 artifactId = 'depinject'
-                version = '1.0.4'
+                version = '1.0.5'
             }
         }
     }
