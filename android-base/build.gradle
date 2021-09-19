@@ -29,6 +29,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -148,15 +152,15 @@ afterEvaluate {
         publications {
             debug(MavenPublication) {
                 from components.debug
-                groupId = 'com.eyup.gurel.lib.dagger2'
-                artifactId = 'depinject'
-                version = '1.0.6'
+                groupId = 'com.eyup.gurel.lib.android.base'
+                artifactId = 'android-base'
+                version = '1.0.7'
             }
             release(MavenPublication) {
                 from components.release
-                groupId = 'com.eyup.gurel.lib.dagger2'
-                artifactId = 'depinject'
-                version = '1.0.6'
+                groupId = 'com.eyup.gurel.lib.android.base'
+                artifactId = 'android-base'
+                version = '1.0.7'
             }
         }
     }
