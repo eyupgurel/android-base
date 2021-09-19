@@ -15,8 +15,8 @@ android {
     defaultConfig {
         minSdk 26
         targetSdk 31
-        versionCode 5
-        versionName "1.0.5"
+        versionCode 6
+        versionName "1.0.6"
 
         // 1) Make sure to use the AndroidJUnitRunner, or a subclass of it. This requires a dependency on androidx.test:runner, too!
         testInstrumentationRunner "com.futurance.futurex.test.CustomTestRunner"
@@ -70,6 +70,19 @@ dependencies {
 
     def  rxRelayVersion = "3.0.0"
     implementation "com.jakewharton.rxrelay3:rxrelay:$rxRelayVersion"
+
+    def  rxBindingVersion = "4.0.0"
+    implementation "com.jakewharton.rxbinding4:rxbinding:$rxBindingVersion"
+    implementation "com.jakewharton.rxbinding4:rxbinding-material:$rxBindingVersion"
+
+    implementation "com.jakewharton.rxbinding4:rxbinding-core:$rxBindingVersion"
+    implementation "com.jakewharton.rxbinding4:rxbinding-appcompat:$rxBindingVersion"
+    implementation "com.jakewharton.rxbinding4:rxbinding-drawerlayout:$rxBindingVersion"
+    implementation "com.jakewharton.rxbinding4:rxbinding-leanback:$rxBindingVersion"
+    implementation "com.jakewharton.rxbinding4:rxbinding-recyclerview:$rxBindingVersion"
+    implementation "com.jakewharton.rxbinding4:rxbinding-slidingpanelayout:$rxBindingVersion"
+    implementation "com.jakewharton.rxbinding4:rxbinding-swiperefreshlayout:$rxBindingVersion"
+    implementation "com.jakewharton.rxbinding4:rxbinding-viewpager2:$rxBindingVersion"
 
     def  daggerVersion = "2.38.1"
     api "com.google.dagger:dagger:$daggerVersion"
@@ -137,13 +150,13 @@ afterEvaluate {
                 from components.debug
                 groupId = 'com.eyup.gurel.lib.dagger2'
                 artifactId = 'depinject'
-                version = '1.0.5'
+                version = '1.0.6'
             }
             release(MavenPublication) {
                 from components.release
                 groupId = 'com.eyup.gurel.lib.dagger2'
                 artifactId = 'depinject'
-                version = '1.0.5'
+                version = '1.0.6'
             }
         }
     }
