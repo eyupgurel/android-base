@@ -15,8 +15,8 @@ android {
     defaultConfig {
         minSdk 26
         targetSdk 31
-        versionCode 8
-        versionName "1.0.8"
+        versionCode 9
+        versionName "1.0.9"
 
         // 1) Make sure to use the AndroidJUnitRunner, or a subclass of it. This requires a dependency on androidx.test:runner, too!
         testInstrumentationRunner "com.futurance.futurex.test.CustomTestRunner"
@@ -101,6 +101,17 @@ dependencies {
     kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
+    def  retrofitVersion = "2.9.0"
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+
+    def  moshiVersion = "1.12.0"
+    implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
+    implementation "com.squareup.moshi:moshi-adapters:$moshiVersion"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
+
     def espressoVersion = "3.4.0"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
 
@@ -123,6 +134,12 @@ dependencies {
     def mockkVersion = "1.11.0"
     testImplementation "io.mockk:mockk:$mockkVersion"
 
+    def okHttp3Version = "4.9.1"
+
+    implementation "com.squareup.okhttp3:okhttp:$okHttp3Version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttp3Version"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:$okHttp3Version"
+
     implementation 'com.github.eyupgurel:depinject:1.0.1'
 
     def nav_version = "2.3.5"
@@ -138,12 +155,6 @@ dependencies {
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
     def nav_compose_version = "2.4.0-alpha08"
-
-    def  moshiVersion = "1.12.0"
-    implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
-    implementation "com.squareup.moshi:moshi-adapters:$moshiVersion"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
-
     // Jetpack Compose Integration
     implementation "androidx.navigation:navigation-compose:$nav_compose_version"
 }
@@ -154,13 +165,13 @@ afterEvaluate {
                 from components.debug
                 groupId = 'com.eyup.gurel.lib.android.base'
                 artifactId = 'android-base'
-                version = '1.0.8'
+                version = '1.0.9'
             }
             release(MavenPublication) {
                 from components.release
                 groupId = 'com.eyup.gurel.lib.android.base'
                 artifactId = 'android-base'
-                version = '1.0.8'
+                version = '1.0.9'
             }
         }
     }
