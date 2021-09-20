@@ -16,7 +16,7 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-abstract class ServiceModule {
+abstract class BaseServiceModule {
     companion object {
         // Dagger will only look for methods annotated with @Provides
         @Provides
