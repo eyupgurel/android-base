@@ -12,6 +12,7 @@ import javax.inject.Inject
 
 
 @ActivityScope
+
 class DefaultBottomScreenNavigator @Inject internal constructor(private val context: Context,
                                                                 private val appCompatActivity: AppCompatActivity,
                                                                 private val moshi: Moshi): ActivityLifecycleTask(), BottomScreenNavigator {
@@ -38,5 +39,9 @@ class DefaultBottomScreenNavigator @Inject internal constructor(private val cont
 
     override fun navigateUp(): Completable {
         return Completable.fromCallable{navController.navigateUp()}
+    }
+
+    override fun getNavigationController(): NavController {
+        return navController
     }
 }

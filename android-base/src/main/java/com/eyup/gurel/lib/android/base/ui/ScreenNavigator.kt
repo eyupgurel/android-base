@@ -1,5 +1,6 @@
 package com.eyup.gurel.lib.android.base.ui
 
+import androidx.navigation.NavController
 import io.reactivex.rxjava3.core.Completable
 
 interface ScreenNavigator {
@@ -8,4 +9,5 @@ interface ScreenNavigator {
     fun navigate(actionId:Int,  argKey:String, argVal:String): Completable
     fun navigate(actionId:Int,  argKey:String, argVal:Int): Completable
     fun navigateUp(): Completable
+    fun getNavigationController():NavController
 }

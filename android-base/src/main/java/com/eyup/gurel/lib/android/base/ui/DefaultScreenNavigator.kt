@@ -3,6 +3,7 @@ package com.eyup.gurel.lib.android.base.ui
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.navigation.NavController
 import com.eyup.gurel.lib.android.base.home.ActivityStateHandler
 import com.eyup.gurel.lib.android.base.lifecycle.ActivityLifecycleTask
 import com.eyup.gurel.lib.dagger2.di.ActivityScope
@@ -45,5 +46,9 @@ open class DefaultScreenNavigator @Inject  constructor(private val context: Cont
 
     override fun navigateUp(): Completable {
         return Completable.fromCallable { activityStateHandler.navController!!.navigateUp() }
+    }
+
+    override fun getNavigationController(): NavController {
+        return activityStateHandler.navController!!
     }
 }
