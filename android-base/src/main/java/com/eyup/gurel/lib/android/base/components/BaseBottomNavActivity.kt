@@ -7,14 +7,19 @@ import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import com.eyup.gurel.lib.android.base.lifecycle.ActivityLifecycleTask
 import com.eyup.gurel.lib.android.base.ui.ActivityViewInterceptor
-import com.eyup.gurel.lib.dagger2.di.Injector
-import com.eyup.gurel.lib.dagger2.di.InstanceInfoProvider
-import com.eyup.gurel.lib.dagger2.di.ScreenInjector
-import com.eyup.gurel.lib.dagger2.di.ScreenInjectorProvider
+import com.eyup.gurel.lib.dagger2.di.*
+import com.eyup.gurel.lib.dagger2.lifecycle.DisposableManager
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 import java.util.*
 import javax.inject.Inject
 
 abstract class BaseBottomNavActivity : AppCompatActivity(), InstanceInfoProvider, ScreenInjectorProvider {
+
+    private val disposables = CompositeDisposable()
+    @Inject
+    @ForActivityScreen
+    protected lateinit var disposableManager: DisposableManager
 
     @Inject
     override lateinit var screenInjector: ScreenInjector
@@ -43,6 +48,7 @@ abstract class BaseBottomNavActivity : AppCompatActivity(), InstanceInfoProvider
         Injector.inject(this)
         activityViewInterceptor.setContentView(this, layoutRes())
         activityLifecycleTasks.forEach{it.onCreate(this)}
+        disposables.addAll(*subscriptions())
     }
 
     public override fun onSaveInstanceState(outState: Bundle) {
@@ -50,11 +56,14 @@ abstract class BaseBottomNavActivity : AppCompatActivity(), InstanceInfoProvider
         outState.putString(INSTANCE_ID_KEY, instanceId)
     }
 
+    protected abstract fun subscriptions(): Array<Disposable>
 
     @LayoutRes
     protected abstract fun layoutRes(): Int
     override fun onDestroy() {
         super.onDestroy()
+        disposables.clear()
+
         if (isFinishing) {
             Injector.clearComponent(this)
         }
