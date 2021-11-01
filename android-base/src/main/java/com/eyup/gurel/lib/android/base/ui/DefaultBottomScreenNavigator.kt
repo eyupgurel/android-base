@@ -7,7 +7,7 @@ import androidx.navigation.NavController
 import com.eyup.gurel.lib.android.base.lifecycle.ActivityLifecycleTask
 import com.eyup.gurel.lib.dagger2.di.ActivityScope
 import com.squareup.moshi.Moshi
-import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 
@@ -25,20 +25,20 @@ class DefaultBottomScreenNavigator @Inject internal constructor(private val cont
         return navController.popBackStack()
     }
 
-    override fun navigate(actionId: Int): Completable {
-        return Completable.fromCallable{navController.navigate(actionId)}
+    override fun navigate(actionId: Int): Single<Unit> {
+        return Single.fromCallable{navController.navigate(actionId)}
     }
 
-    override fun navigate(actionId: Int, argKey: String, argVal: String): Completable {
-        return Completable.fromCallable{ navController.navigate(actionId, bundleOf(argKey to argVal))}
+    override fun navigate(actionId: Int, argKey: String, argVal: String): Single<Unit> {
+        return Single.fromCallable{ navController.navigate(actionId, bundleOf(argKey to argVal))}
     }
 
-    override fun navigate(actionId: Int, argKey: String, argVal: Int): Completable {
-        return Completable.fromCallable{ navController.navigate(actionId, bundleOf(argKey to argVal))}
+    override fun navigate(actionId: Int, argKey: String, argVal: Int): Single<Unit> {
+        return Single.fromCallable{ navController.navigate(actionId, bundleOf(argKey to argVal))}
     }
 
-    override fun navigateUp(): Completable {
-        return Completable.fromCallable{navController.navigateUp()}
+    override fun navigateUp(): Single<Unit> {
+        return Single.fromCallable{navController.navigateUp()}
     }
 
     override fun getNavigationController(): NavController {
