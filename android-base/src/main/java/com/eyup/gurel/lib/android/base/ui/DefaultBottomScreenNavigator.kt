@@ -25,6 +25,10 @@ class DefaultBottomScreenNavigator @Inject internal constructor(private val cont
         return navController.popBackStack()
     }
 
+    override fun pop(id: Int, inclusive: Boolean): Boolean {
+        return navController.popBackStack(id,inclusive)
+    }
+
     override fun navigate(actionId: Int): Single<Unit> {
         return Single.fromCallable{navController.navigate(actionId)}
     }

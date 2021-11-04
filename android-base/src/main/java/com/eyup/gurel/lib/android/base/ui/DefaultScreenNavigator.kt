@@ -19,6 +19,10 @@ open class DefaultScreenNavigator @Inject  constructor(private val context: Cont
     override fun pop(): Boolean {
         return activityStateHandler.navController!!.popBackStack()
     }
+    override fun pop(id:Int, inclusive:Boolean): Boolean {
+        return activityStateHandler.navController!!.popBackStack(id,inclusive)
+    }
+
 
     override fun navigate(actionId: Int): Single<Unit> {
         return Single.fromCallable { activityStateHandler.navController!!.navigate(actionId) }
