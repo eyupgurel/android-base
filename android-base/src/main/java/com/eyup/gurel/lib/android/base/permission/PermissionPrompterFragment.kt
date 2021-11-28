@@ -1,12 +1,15 @@
 package com.eyup.gurel.lib.android.base.permission
 
+import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
-import com.eyup.gurel.lib.android.base.BuildConfig
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import com.eyup.gurel.lib.android.base.R
 import com.eyup.gurel.lib.android.base.components.BaseFragment
 import com.eyup.gurel.lib.android.base.contract.Prompter
@@ -22,6 +25,7 @@ abstract class PermissionPrompterFragment: BaseFragment() {
     protected abstract var permissionRationale: Int
     protected abstract var frame: View
     protected abstract var applicationId:String
+    protected abstract var snackbarActionTitle:String
 
     // If the user denied a previous permission request, but didn't check "Don't ask again", these
     // Snackbars provided an explanation for why user should approve, i.e., the additional
@@ -42,7 +46,7 @@ abstract class PermissionPrompterFragment: BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val permissionApproved = context?.hasPermission(permission) ?: return
+        val permissionApproved = hasPermission(requireContext(),permission) ?: return
         if (permissionApproved) {
             presenter.prompt()
         }
@@ -76,7 +80,7 @@ abstract class PermissionPrompterFragment: BaseFragment() {
                         permissionDeniedExplanation,
                         Snackbar.LENGTH_LONG
                     )
-                        .setAction("Settings" /*R.string.settings*/) {
+                        .setAction(snackbarActionTitle) {
                             // Build intent that displays the App settings screen.
                             val intent = Intent()
                             intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
@@ -95,15 +99,53 @@ abstract class PermissionPrompterFragment: BaseFragment() {
         }
     }
 
-
     protected fun requestPermission() {
-        val permissionApproved = context?.hasPermission(permission) ?: return
+        val permissionApproved =  hasPermission(requireContext(), permission) ?: return
         if (permissionApproved) {
             presenter.prompt()
         } else {
-            requestPermissionWithRationale(permission,
+            requestPermissionWithRationale(
+                this,
+                permission,
                 requestCode,
                 rationalSnackbar)
+        }
+    }
+
+    companion object{
+        /**
+         * Helper functions to simplify permission checks/requests.
+         */
+        fun hasPermission(context:Context, permission: String): Boolean {
+
+            // Background permissions didn't exit prior to Q, so it's approved by default.
+            if (permission == Manifest.permission.ACCESS_BACKGROUND_LOCATION &&
+                android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q) {
+                return true
+            }
+
+            return ActivityCompat.checkSelfPermission(context, permission) ==
+                    PackageManager.PERMISSION_GRANTED
+        }
+        /**
+         * Requests permission and if the user denied a previous request, but didn't check
+         * "Don't ask again", we provide additional rationale.
+         *
+         * Note: The Snackbar should have an action to request the permission.
+         */
+        fun requestPermissionWithRationale(
+            fragment:Fragment,
+            permission: String,
+            requestCode: Int,
+            snackbar: Snackbar
+        ) {
+            val provideRationale = fragment.shouldShowRequestPermissionRationale(permission)
+
+            if (provideRationale) {
+                snackbar.show()
+            } else {
+                fragment.requestPermissions(arrayOf(permission), requestCode)
+            }
         }
     }
 }

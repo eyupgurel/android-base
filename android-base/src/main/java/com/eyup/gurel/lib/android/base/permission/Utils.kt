@@ -1,3 +1,4 @@
+/*
 package com.eyup.gurel.lib.android.base.permission
 
 import android.Manifest
@@ -8,9 +9,11 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 
 
+*/
 /**
  * Helper functions to simplify permission checks/requests.
- */
+ *//*
+
 fun Context.hasPermission(permission: String): Boolean {
 
     // Background permissions didn't exit prior to Q, so it's approved by default.
@@ -23,12 +26,14 @@ fun Context.hasPermission(permission: String): Boolean {
             PackageManager.PERMISSION_GRANTED
 }
 
+*/
 /**
  * Requests permission and if the user denied a previous request, but didn't check
  * "Don't ask again", we provide additional rationale.
  *
  * Note: The Snackbar should have an action to request the permission.
- */
+ *//*
+
 fun Fragment.requestPermissionWithRationale(
     permission: String,
     requestCode: Int,
@@ -42,3 +47,4 @@ fun Fragment.requestPermissionWithRationale(
         requestPermissions(arrayOf(permission), requestCode)
     }
 }
+*/
