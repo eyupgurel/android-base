@@ -16,6 +16,7 @@ import java.util.*
 import javax.inject.Inject
 
 abstract class BaseFragment : Fragment() {
+    protected var clearComponent:Boolean = false
     protected var  screenLifecycleTasks:  Set<@JvmSuppressWildcards ScreenLifecycleTask>? = null
         @Inject set(value) {
             field = value
@@ -53,7 +54,7 @@ abstract class BaseFragment : Fragment() {
         screenLifecycleTasks?.forEach{
             it.onDestroy()
         }
-        if (!requireActivity().isChangingConfigurations) {
+        if (clearComponent || !requireActivity().isChangingConfigurations) {
             Injector.clearComponent(this)
         }
         super.onDestroy()

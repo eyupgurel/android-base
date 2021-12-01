@@ -15,8 +15,8 @@ android {
     defaultConfig {
         minSdk 16
         targetSdk 31
-        versionCode 18
-        versionName "1.1.8"
+        versionCode 19
+        versionName "1.1.9"
 
         // 1) Make sure to use the AndroidJUnitRunner, or a subclass of it. This requires a dependency on androidx.test:runner, too!
         testInstrumentationRunner "com.futurance.futurex.test.CustomTestRunner"
@@ -143,7 +143,7 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okHttp3Version"
     implementation "com.squareup.okhttp3:okhttp-urlconnection:$okHttp3Version"
 
-    implementation 'com.github.eyupgurel:depinject:1.0.1'
+    implementation 'com.github.eyupgurel:depinject:1.0.3'
 
     def nav_version = "2.3.5"
 
@@ -168,13 +168,13 @@ afterEvaluate {
                 from components.debug
                 groupId = 'com.eyup.gurel.lib.android.base'
                 artifactId = 'android-base'
-                version = '1.1.8'
+                version = '1.1.9'
             }
             release(MavenPublication) {
                 from components.release
                 groupId = 'com.eyup.gurel.lib.android.base'
                 artifactId = 'android-base'
-                version = '1.1.8'
+                version = '1.1.9'
             }
         }
     }
